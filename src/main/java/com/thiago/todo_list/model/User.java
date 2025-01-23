@@ -8,6 +8,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "app_user")
 @Getter
@@ -32,7 +35,8 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    // @EqualsAndHashCode.Exclude private List<Task> tasks = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude private List<Task> tasks = new ArrayList<>();
 
     public User(Integer id, String username, String password){
         this.id = id;

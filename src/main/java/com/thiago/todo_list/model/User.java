@@ -1,5 +1,6 @@
 package com.thiago.todo_list.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thiago.todo_list.validation.CreateGroup;
 import com.thiago.todo_list.validation.UpdateGroup;
@@ -36,6 +37,7 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     @EqualsAndHashCode.Exclude private List<Task> tasks = new ArrayList<>();
 
     public User(Integer id, String username, String password){

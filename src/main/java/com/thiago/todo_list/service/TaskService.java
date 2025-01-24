@@ -49,9 +49,4 @@ public class TaskService {
             throw new TaskDeletionFailedException(e);
         }
     }
-
-    public List<Task> findByUser(User obj){
-        User user = userService.findById(obj.getId());
-        return user.getTasks();
-    }
 }

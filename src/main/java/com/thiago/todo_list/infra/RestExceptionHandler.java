@@ -4,6 +4,7 @@ import com.thiago.todo_list.exception.TaskDeletionFailedException;
 import com.thiago.todo_list.exception.TaskNotFoundException;
 import com.thiago.todo_list.exception.UserDeletionFailedException;
 import com.thiago.todo_list.exception.UserNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class RestExceptionHandler extends ResponseEntityExceptionHandler  {
+public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     private ResponseEntity<RestErrorMessage> userNotFoundHandler(UserNotFoundException ex){
@@ -36,4 +37,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler  {
         RestErrorMessage response = new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         return ResponseEntity.status(response.getHttpStatus()).body(response);
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    private ResponseEntity<RestErrorMessage> handleMethodArgumentNotValid(ConstraintViolationException ex){
+        RestErrorMessage response = new RestErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage());
+        return ResponseEntity.status(response.getHttpStatus()).body(response);
+    }
+
 }

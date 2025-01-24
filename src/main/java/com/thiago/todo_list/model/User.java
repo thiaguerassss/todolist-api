@@ -11,12 +11,12 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "app_user")
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
+@Entity
+@Table(name = "app_user")
 public class User {
 
     @Id

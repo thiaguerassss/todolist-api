@@ -30,18 +30,18 @@ public class UserController {
     @PostMapping
     @Validated(CreateGroup.class)
     public ResponseEntity<User> create(@Valid @RequestBody User user){
-        User userCreated = userService.create(user);
+        user = userService.create(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}").buildAndExpand(user.getId()).toUri();
-        return ResponseEntity.created(uri).body(userCreated);
+        return ResponseEntity.created(uri).body(user);
     }
 
     @PutMapping("/{id}")
     @Validated(UpdateGroup.class)
     public ResponseEntity<User> update(@Valid @RequestBody User user, @PathVariable("id") Integer id){
         user.setId(id);
-        User userUpdated = userService.update(user);
-        return ResponseEntity.ok(userUpdated);
+        user = userService.update(user);
+        return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("/{id}")

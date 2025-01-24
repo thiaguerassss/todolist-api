@@ -3,7 +3,6 @@ package com.thiago.todo_list.service;
 import com.thiago.todo_list.exception.UserDeletionFailedException;
 import com.thiago.todo_list.exception.UserNotFoundException;
 import com.thiago.todo_list.model.User;
-import com.thiago.todo_list.repository.TaskRepository;
 import com.thiago.todo_list.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

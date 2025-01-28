@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/task")
@@ -48,5 +49,11 @@ public class TaskController {
     public ResponseEntity<Void> delete (@PathVariable("id") Integer id){
         taskService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user/{user_id}")
+    public ResponseEntity<List<Task>> findByUserId(@PathVariable("user_id") Integer id){
+        List<Task> tasks = taskService.findByUserId(id);
+        return ResponseEntity.ok().body(tasks);
     }
 }

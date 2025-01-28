@@ -26,6 +26,5 @@ public class Task {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
-    @NotBlank(message = "Usuário não pode ser nulo.", groups = CreateGroup.class)
     private User user;
 }

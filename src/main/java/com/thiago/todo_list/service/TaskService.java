@@ -30,6 +30,7 @@ public class TaskService {
     public Task create(Task task){
         User user = userService.findById(task.getUser().getId());
         task.setId(null);
+        task.setUser(user);
         task = taskRepository.save(task);
         return task;
     }
@@ -48,5 +49,9 @@ public class TaskService {
         } catch (Exception e){
             throw new TaskDeletionFailedException(e);
         }
+    }
+
+    public List<Task> findByUserId(Integer id){
+        return taskRepository.findByUser_Id(id);
     }
 }

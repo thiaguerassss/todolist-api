@@ -2,6 +2,8 @@ package com.thiago.todo_list.service;
 
 import com.thiago.todo_list.model.User;
 import com.thiago.todo_list.repository.UserRepository;
+import com.thiago.todo_list.service.exception.DataBindingViolationException;
+import com.thiago.todo_list.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +18,7 @@ public class UserService {
 
     public User findById(Integer id) {
         Optional<User> user = userRepository.findById(id);
-        return user.orElseThrow(RuntimeException::new);
+        return user.orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado. ID: " + id));
     }
 
     @Transactional
@@ -38,7 +40,7 @@ public class UserService {
         try {
             userRepository.deleteById(id);
         } catch (Exception e){
-            throw new RuntimeException(e);
+            throw new DataBindingViolationException("Não é possível deletar pois há entidades relacionadas.");
         }
     }
 }

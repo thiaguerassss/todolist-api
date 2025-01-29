@@ -3,6 +3,8 @@ package com.thiago.todo_list.service;
 import com.thiago.todo_list.model.Task;
 import com.thiago.todo_list.model.User;
 import com.thiago.todo_list.repository.TaskRepository;
+import com.thiago.todo_list.service.exception.DataBindingViolationException;
+import com.thiago.todo_list.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +23,7 @@ public class TaskService {
 
     public Task findById(Integer id){
         Optional<Task> task = taskRepository.findById(id);
-        return task.orElseThrow(RuntimeException::new);
+        return task.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada. ID: " + id));
     }
 
     @Transactional
@@ -45,7 +47,7 @@ public class TaskService {
         try {
             taskRepository.deleteById(id);
         } catch (Exception e){
-            throw new RuntimeException(e);
+            throw new DataBindingViolationException("Não é possível deletar pois há entidades relacionadas.");
         }
     }
 

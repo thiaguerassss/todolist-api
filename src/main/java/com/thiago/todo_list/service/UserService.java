@@ -1,7 +1,5 @@
 package com.thiago.todo_list.service;
 
-import com.thiago.todo_list.exception.UserDeletionFailedException;
-import com.thiago.todo_list.exception.UserNotFoundException;
 import com.thiago.todo_list.model.User;
 import com.thiago.todo_list.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,7 @@ public class UserService {
 
     public User findById(Integer id) {
         Optional<User> user = userRepository.findById(id);
-        return user.orElseThrow(UserNotFoundException::new);
+        return user.orElseThrow(RuntimeException::new);
     }
 
     @Transactional
@@ -40,7 +38,7 @@ public class UserService {
         try {
             userRepository.deleteById(id);
         } catch (Exception e){
-            throw new UserDeletionFailedException(e);
+            throw new RuntimeException(e);
         }
     }
 }

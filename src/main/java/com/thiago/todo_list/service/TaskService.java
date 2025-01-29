@@ -1,7 +1,5 @@
 package com.thiago.todo_list.service;
 
-import com.thiago.todo_list.exception.TaskDeletionFailedException;
-import com.thiago.todo_list.exception.TaskNotFoundException;
 import com.thiago.todo_list.model.Task;
 import com.thiago.todo_list.model.User;
 import com.thiago.todo_list.repository.TaskRepository;
@@ -23,7 +21,7 @@ public class TaskService {
 
     public Task findById(Integer id){
         Optional<Task> task = taskRepository.findById(id);
-        return task.orElseThrow(TaskNotFoundException::new);
+        return task.orElseThrow(RuntimeException::new);
     }
 
     @Transactional
@@ -47,7 +45,7 @@ public class TaskService {
         try {
             taskRepository.deleteById(id);
         } catch (Exception e){
-            throw new TaskDeletionFailedException(e);
+            throw new RuntimeException(e);
         }
     }
 

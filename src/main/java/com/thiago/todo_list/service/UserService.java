@@ -1,10 +1,12 @@
 package com.thiago.todo_list.service;
 
 import com.thiago.todo_list.model.User;
+import com.thiago.todo_list.model.enums.ProfileEnum;
 import com.thiago.todo_list.repository.UserRepository;
 import com.thiago.todo_list.service.exception.DataBindingViolationException;
 import com.thiago.todo_list.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +14,9 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -24,6 +29,8 @@ public class UserService {
     @Transactional
     public User create(User user){
         user.setId(null);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.addProfile(ProfileEnum.USER);
         user = userRepository.save(user);
         return user;
     }
@@ -32,6 +39,7 @@ public class UserService {
     public User update(User user){
         User newUser = findById(user.getId());
         newUser.setPassword(user.getPassword());
+        newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
         return userRepository.save(newUser);
     }
 

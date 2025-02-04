@@ -1,5 +1,6 @@
 package com.thiago.todo_list.exception;
 
+import com.thiago.todo_list.service.exception.AuthorizationException;
 import com.thiago.todo_list.service.exception.DataBindingViolationException;
 import com.thiago.todo_list.service.exception.ObjectNotFoundException;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.validation.FieldError;
@@ -86,6 +88,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
                                                                       WebRequest request){
         log.error("Falha ao deletar entidade", ex);
         return buildErrorResponse(ex, HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<Object> handleAuthenticationException(AuthorizationException ex, WebRequest request){
+        log.error("Erro de autenticação: ", ex);
+        return buildErrorResponse(ex,HttpStatus.UNAUTHORIZED,request);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request){
+        log.error("Erro de autenticação: ", ex);
+        return buildErrorResponse(ex, HttpStatus.FORBIDDEN,request);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<Object> handleAuthorizationException(AuthorizationException ex, WebRequest request){
+        log.error("Erro de autorização: ", ex);
+        return buildErrorResponse(ex, HttpStatus.FORBIDDEN, request);
     }
 
     private ResponseEntity<Object> buildErrorResponse(

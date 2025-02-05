@@ -28,6 +28,18 @@ public class TaskController {
         return ResponseEntity.ok(task);
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<List<Task>> findAllByUser() {
+        List<Task> tasks = this.taskService.findAllByUser();
+        return ResponseEntity.ok().body(tasks);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Task>> findAll(){
+        List<Task> tasks = this.taskService.findAll();
+        return ResponseEntity.ok().body(tasks);
+    }
+
     @PostMapping
     @Validated(CreateGroup.class)
     public ResponseEntity<Task> create(@Valid @RequestBody Task task){
@@ -49,11 +61,5 @@ public class TaskController {
     public ResponseEntity<Void> delete (@PathVariable("id") Integer id){
         taskService.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/user/{user_id}")
-    public ResponseEntity<List<Task>> findByUserId(@PathVariable("user_id") Integer id){
-        List<Task> tasks = taskService.findByUserId(id);
-        return ResponseEntity.ok().body(tasks);
     }
 }

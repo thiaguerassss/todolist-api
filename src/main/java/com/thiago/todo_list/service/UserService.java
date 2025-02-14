@@ -1,12 +1,15 @@
 package com.thiago.todo_list.service;
 
 import com.thiago.todo_list.model.User;
+import com.thiago.todo_list.model.dto.UserCreateDTO;
+import com.thiago.todo_list.model.dto.UserUpdateDTO;
 import com.thiago.todo_list.model.enums.ProfileEnum;
 import com.thiago.todo_list.repository.UserRepository;
 import com.thiago.todo_list.security.UserSpringSecurity;
 import com.thiago.todo_list.service.exception.AuthorizationException;
 import com.thiago.todo_list.service.exception.DataBindingViolationException;
 import com.thiago.todo_list.service.exception.ObjectNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -67,5 +70,18 @@ public class UserService {
         } catch (Exception e){
             return null;
         }
+    }
+
+    public User fromDTO(@Valid UserCreateDTO obj) {
+        User user = new User();
+        user.setUsername(obj.getUsername());
+        user.setPassword(obj.getPassword());
+        return user;
+    }
+    public User fromDTO(@Valid UserUpdateDTO obj) {
+        User user = new User();
+        user.setId(obj.getId());
+        user.setPassword(obj.getPassword());
+        return user;
     }
 }

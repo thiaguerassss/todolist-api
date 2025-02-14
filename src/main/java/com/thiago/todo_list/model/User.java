@@ -16,10 +16,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "app_user")
 public class User {
@@ -29,14 +27,13 @@ public class User {
     private Integer id;
 
     @Column(length = 100, nullable = false, unique = true)
-    @NotBlank(message = "Usuário não pode ser nulo/vazio.", groups = CreateGroup.class)
-    @Size(min = 3, max = 100, message = "Usuário deve ter no mínimo 3 caracteres.", groups = CreateGroup.class)
+    @NotBlank(message = "Usuário não pode ser nulo/vazio.")
+    @Size(min = 3, max = 100, message = "Usuário deve ter no mínimo 3 caracteres.")
     private String username;
 
     @Column(length = 100, nullable = false)
-    @NotBlank(message = "Senha não pode ser nula/vazia.", groups = {CreateGroup.class, UpdateGroup.class})
-    @Size(min = 5, max = 100, message = "Senha deve ter no mínimo 5 caracteres.",
-            groups = {CreateGroup.class, UpdateGroup.class})
+    @NotBlank(message = "Senha não pode ser nula/vazia.")
+    @Size(min = 5, max = 100, message = "Senha deve ter no mínimo 5 caracteres.")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

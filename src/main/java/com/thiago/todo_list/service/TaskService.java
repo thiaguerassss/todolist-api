@@ -3,6 +3,7 @@ package com.thiago.todo_list.service;
 import com.thiago.todo_list.model.Task;
 import com.thiago.todo_list.model.User;
 import com.thiago.todo_list.model.enums.ProfileEnum;
+import com.thiago.todo_list.model.projection.TaskProjection;
 import com.thiago.todo_list.repository.TaskRepository;
 import com.thiago.todo_list.security.UserSpringSecurity;
 import com.thiago.todo_list.service.exception.AuthorizationException;
@@ -34,12 +35,12 @@ public class TaskService {
         return task;
     }
 
-    public List<Task> findAllByUser() {
+    public List<TaskProjection> findAllByUser() {
         UserSpringSecurity userSpringSecurity = UserService.authenticated();
         if (Objects.isNull(userSpringSecurity))
             throw new AuthorizationException("Acesso negado!");
 
-        List<Task> tasks = this.taskRepository.findByUser_Id(userSpringSecurity.getId());
+        List<TaskProjection> tasks = this.taskRepository.findByUser_Id(userSpringSecurity.getId());
         return tasks;
     }
 

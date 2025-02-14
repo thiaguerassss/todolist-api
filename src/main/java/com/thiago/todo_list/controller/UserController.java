@@ -1,9 +1,9 @@
 package com.thiago.todo_list.controller;
 
 import com.thiago.todo_list.model.User;
+import com.thiago.todo_list.model.dto.UserCreateDTO;
+import com.thiago.todo_list.model.dto.UserUpdateDTO;
 import com.thiago.todo_list.service.UserService;
-import com.thiago.todo_list.validation.CreateGroup;
-import com.thiago.todo_list.validation.UpdateGroup;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,19 +28,19 @@ public class UserController {
     }
 
     @PostMapping
-    @Validated(CreateGroup.class)
-    public ResponseEntity<User> create(@Valid @RequestBody User user){
-        user = userService.create(user);
+    public ResponseEntity<User> create(@Valid @RequestBody UserCreateDTO obj){
+        User user = this.userService.fromDTO(obj);
+        User newUser = this.userService.create(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(user.getId()).toUri();
-        return ResponseEntity.created(uri).body(user);
+                .path("/{id}").buildAndExpand(newUser.getId()).toUri();
+        return ResponseEntity.created(uri).body(newUser);
     }
 
     @PutMapping("/{id}")
-    @Validated(UpdateGroup.class)
-    public ResponseEntity<User> update(@Valid @RequestBody User user, @PathVariable("id") Integer id){
-        user.setId(id);
-        user = userService.update(user);
+    public ResponseEntity<User> update(@Valid @RequestBody UserUpdateDTO obj, @PathVariable("id") Integer id){
+        obj.setId(id);
+        User user = this.userService.fromDTO(obj);
+        this.userService.update(user);
         return ResponseEntity.ok(user);
     }
 

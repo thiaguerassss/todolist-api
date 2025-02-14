@@ -1,6 +1,7 @@
 package com.thiago.todo_list.controller;
 
 import com.thiago.todo_list.model.Task;
+import com.thiago.todo_list.model.projection.TaskProjection;
 import com.thiago.todo_list.service.TaskService;
 import com.thiago.todo_list.validation.CreateGroup;
 import com.thiago.todo_list.validation.UpdateGroup;
@@ -29,8 +30,8 @@ public class TaskController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<List<Task>> findAllByUser() {
-        List<Task> tasks = this.taskService.findAllByUser();
+    public ResponseEntity<List<TaskProjection>> findAllByUser() {
+        List<TaskProjection> tasks = this.taskService.findAllByUser();
         return ResponseEntity.ok().body(tasks);
     }
 

@@ -124,6 +124,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>todo-list-api</finalName>
 	</build>
 
 </project>

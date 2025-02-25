@@ -11,7 +11,7 @@ COPY . .
 RUN chmod +x mvnw
 
 # Executa o build do projeto (gera o JAR)
-RUN ./mvnw clean package -DskipTests
+RUN ./mvnw clean package
 
 # Copia o JAR gerado para um novo container menor
 FROM openjdk:21-jdk-slim
